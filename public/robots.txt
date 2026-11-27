@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://skabdulahmed8.github.io/SignStudio/sitemap.xml

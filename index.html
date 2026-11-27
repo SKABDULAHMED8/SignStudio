@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f8">
+  <title>SignStudio – Sign and Fill PDFs in Your Browser</title>
+  <meta name="description" content="Create digital signatures and fill PDF forms in your browser. Your files stay on your device, with no account and no upload required.">
+  <link rel="canonical" href="https://skabdulahmed8.github.io/SignStudio/">
+  <link rel="icon" href="%BASE_URL%favicon.ico" sizes="any">
+  <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png">
+  <link rel="manifest" href="%BASE_URL%site.webmanifest">
+  <meta property="og:title" content="SignStudio – Sign and Fill PDFs in Your Browser">
+  <meta property="og:description" content="Create digital signatures and fill PDF forms in your browser. Your files stay on your device.">
+  <meta property="og:url" content="https://skabdulahmed8.github.io/SignStudio/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://skabdulahmed8.github.io/SignStudio/social-preview.png">
+  <meta property="og:site_name" content="SignStudio">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SignStudio – Sign and Fill PDFs in Your Browser">
+  <meta name="twitter:description" content="Create digital signatures and fill PDF forms in your browser. Your files stay on your device.">
+  <meta name="twitter:image" content="https://skabdulahmed8.github.io/SignStudio/social-preview.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"SignStudio","applicationCategory":"UtilitiesApplication","operatingSystem":"Any modern web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://github.com/SKABDULAHMED8/SignStudio/blob/main/LICENSE","url":"https://skabdulahmed8.github.io/SignStudio/"}
+  </script>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#studio" aria-label="SignStudio home">
+        <img class="brand-wordmark" src="%BASE_URL%logo.svg" alt="SignStudio" width="64" height="64" draggable="false">
+      </a>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button class="nav-button is-active" data-view="studio" aria-current="page"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#pen-tool"/></svg><span>Make a signature</span></button>
+        <button class="nav-button" data-view="library"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#library"/></svg><span>My signatures</span></button>
+        <button class="nav-button" data-view="pdf"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#file-text"/></svg><span>Fill a PDF</span><span class="nav-meta">Optional</span></button>
+      </nav>
+      <div class="topbar-actions">
+        <span class="privacy-indicator"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#shield-check"/></svg><span>On this device</span></span>
+        <button class="icon-button" id="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#moon"/></svg></button>
+        <button class="icon-button" id="settings-button" aria-label="Open settings" title="Settings"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#settings"/></svg></button>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="view studio-view" data-panel="studio">
+        <div class="page-heading">
+          <div><p class="eyebrow">SIGNATURE CREATION</p><h1>Make a clear digital signature</h1><p class="subtitle">Turn a photo of your paper signature into a clean digital signature. Your signature stays on this device.</p></div>
+          <div class="heading-actions"><span class="offline-status" id="offline-status"><i></i><span>Works offline after first visit</span></span></div>
+        </div>
+        <div class="studio-layout">
+          <section class="workspace-column" aria-label="Signature workspace">
+            <div class="input-tabs" role="tablist" aria-label="Signature input method">
+              <button class="input-tab is-active" role="tab" aria-selected="true" data-input="photo"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#image-up"/></svg><span>Photo or upload</span></button>
+              <button class="input-tab" role="tab" aria-selected="false" data-input="draw"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#pencil"/></svg><span>Draw signature</span></button>
+            </div>
+            <div class="input-stage" id="photo-stage">
+              <input class="visually-hidden" id="image-picker" type="file" aria-label="Choose signature image" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*">
+              <input class="visually-hidden" id="camera-picker" type="file" aria-label="Take a signature photo" accept="image/*" capture="environment">
+              <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose a signature photo or drop an image here">
+                <div class="dropzone-icon"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#image-plus"/></svg></div>
+                <h2>Drop your signature photo here</h2>
+                <p>Use a clear photo of blue, black, red or green ink on white paper.</p>
+                <div class="dropzone-actions"><button class="button button-primary" id="choose-image"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#folder-open"/></svg>Choose image</button><button class="button button-secondary" id="take-photo"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#camera"/></svg>Take photo</button></div>
+                <span class="file-hint">JPG, PNG, WEBP or HEIC when supported · Up to 24 MB</span>
+              </div>
+              <div class="source-preview is-hidden" id="source-preview"><img id="source-image" alt="Original signature photo"><div class="source-caption"><span id="source-name">Uploaded image</span><button class="text-button" id="replace-image">Replace image</button></div></div>
+            </div>
+            <div class="input-stage is-hidden" id="draw-stage">
+              <div class="draw-toolbar"><span class="tool-label">Drawing canvas</span><div class="tool-actions"><label for="stroke-width">Width</label><input id="stroke-width" type="range" min="1" max="12" value="3"><button class="icon-button" id="undo-stroke" aria-label="Undo stroke"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#undo"/></svg></button><button class="icon-button" id="redo-stroke" aria-label="Redo stroke"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#redo"/></svg></button><button class="icon-button" id="clear-strokes" aria-label="Clear drawing"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#trash-2"/></svg></button></div></div>
+              <canvas id="drawing-canvas" aria-label="Draw your signature here"></canvas><p class="canvas-hint">Use your finger, mouse or stylus. Draw naturally inside the area.</p>
+            </div>
+            <div class="result-panel" id="result-panel">
+              <div class="result-heading"><div><h2>Preview</h2><p class="muted">See your signature without a white background</p></div><div class="segmented-control" role="group" aria-label="Preview mode"><button class="is-active" data-preview="after">After</button><button data-preview="before">Before</button></div></div>
+              <div class="preview-board checkerboard" id="preview-board"><div class="preview-empty" id="preview-empty"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#scan"/></svg><span>Your clean signature will appear here</span></div><canvas id="result-canvas" class="is-hidden" aria-label="Signature preview without a white background"></canvas><img id="before-image" class="is-hidden" alt="Original signature photo preview"></div>
+              <div class="preview-footer"><span id="output-dimensions">Your signature will show here</span><span id="transparency-state">No white background</span></div>
+            </div>
+          </section>
+
+          <aside class="controls-column" aria-label="Signature settings">
+            <section class="control-section"><div class="section-title"><h2>Ink colour</h2><span class="help-label">Select your pen</span></div><div class="ink-options" role="radiogroup" aria-label="Ink colour"><button class="ink-option is-selected" data-ink="blue" role="radio" aria-checked="true"><i class="ink-dot ink-blue"></i><span>Blue</span></button><button class="ink-option" data-ink="black" role="radio" aria-checked="false"><i class="ink-dot ink-black"></i><span>Black</span></button><button class="ink-option" data-ink="red" role="radio" aria-checked="false"><i class="ink-dot ink-red"></i><span>Red</span></button><button class="ink-option" data-ink="green" role="radio" aria-checked="false"><i class="ink-dot ink-green"></i><span>Green</span></button></div></section>
+            <section class="control-section"><div class="section-title"><h2>Adjust your signature</h2><span class="help-label">Adjust the result</span></div>
+              <label class="range-control"><span><b>Keep light pen marks</b><output id="sensitivity-value">58%</output></span><input id="sensitivity" type="range" min="0" max="100" value="58"><small>Higher sensitivity keeps lighter pen strokes.</small></label>
+              <label class="range-control"><span><b>Remove dust</b><output id="noise-value">45%</output></span><input id="noise" type="range" min="0" max="100" value="45"><small>Remove dust and isolated marks.</small></label>
+              <label class="range-control"><span><b>Space around signature</b><output id="margin-value">12 px</output></span><input id="margin" type="range" min="0" max="50" value="12"><small>Space around the signature edges.</small></label>
+              <label class="range-control"><span><b>Stroke thickness</b><output id="thickness-value">0</output></span><input id="thickness" type="range" min="-2" max="2" value="0"><small>Subtle line-weight adjustment.</small></label>
+            </section>
+            <section class="control-section"><div class="section-title"><h2>Image size</h2></div><div class="size-options" role="group" aria-label="Image size"><button data-size="512">512</button><button class="is-selected" data-size="1024">1024</button><button data-size="2048">2048</button><button data-size="original">Original</button></div><p class="inline-note" id="size-note">Clear image · up to 1024 px · keeps smaller images at their original size</p></section>
+            <div class="primary-actions"><button class="button button-primary button-wide" id="process-button" disabled><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#sparkles"/></svg>Remove background</button><button class="button button-secondary button-wide" id="export-button" disabled><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#download"/></svg>Save signature image</button><button class="button button-secondary button-wide" id="save-session-button" disabled><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#clock"/></svg>Keep for this session</button><button class="button button-quiet button-wide" id="save-library-button" disabled><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#bookmark-plus"/></svg>Save to my library</button></div>
+            <div class="local-note"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#lock"/></svg><span><b>Your photo stays private</b><br>Your photo is cleaned on this device. Nothing is uploaded.</span></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view library-view is-hidden" data-panel="library"><div class="page-heading"><div><p class="eyebrow">YOUR SAVED SIGNATURES</p><h1>My signatures</h1><p class="subtitle">Your signatures stay private on this device.</p></div><button class="button button-secondary" id="delete-all-button"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#trash-2"/></svg>Delete all signatures</button></div><div class="library-toolbar"><div><b id="library-count">0 signatures</b><span class="muted" id="storage-usage">Space used on this device</span></div><div class="backup-actions"><button class="button button-secondary" id="backup-button"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#archive"/></svg>Download a backup</button><button class="button button-secondary" id="restore-backup-button"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#upload"/></svg>Open a backup</button></div></div><details class="personal-profile-section"><summary>Your saved details <span class="muted">Private on this device</span></summary><p class="muted tiny">Save your details once. You can add them to a PDF when you need them. They are not added to your signature backup.</p><div class="profile-form-grid"><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#user"/></svg>Name for these details<input id="profile-name" maxlength="60" placeholder="My details"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#user"/></svg>Full name<input id="profile-full-name" maxlength="120" autocomplete="name"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#calendar-days"/></svg>Date of birth<input id="profile-dob" maxlength="20" placeholder="DD/MM/YYYY"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#phone"/></svg>Mobile<input id="profile-mobile" maxlength="30" autocomplete="tel"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#mail"/></svg>Email<input id="profile-email" maxlength="160" autocomplete="email"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#map-pin"/></svg>City<input id="profile-city" maxlength="100" autocomplete="address-level2"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#map-pin"/></svg>State<input id="profile-state" maxlength="100" autocomplete="address-level1"></label><label><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#hash"/></svg>PIN code<input id="profile-pin" maxlength="20" autocomplete="postal-code"></label><label class="profile-address"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#map-pin"/></svg>Address<textarea id="profile-address" maxlength="500" rows="2" autocomplete="street-address"></textarea></label></div><div class="profile-actions"><button class="button button-primary" id="profile-save">Save my details</button><select id="profile-select" aria-label="Choose saved details"><option value="">No saved details</option></select><button class="button button-secondary" id="profile-delete" disabled>Delete saved details</button></div></details><div class="library-empty" id="library-empty"><img src="%BASE_URL%icons/empty-signature.svg" alt=""><h2>No saved signatures yet</h2><p>Make a signature first. Save it here to use it again.</p><button class="button button-primary" data-go-studio>Open Make a signature</button></div><div class="library-list" id="library-list"></div><section class="trash-section is-hidden" id="trash-section" aria-labelledby="trash-title"><div class="section-title"><h2 id="trash-title">Recently deleted signatures</h2><span class="help-label">Undo within 60 seconds</span></div><div id="trash-list" class="trash-list"></div></section><input id="backup-picker" class="visually-hidden" type="file" aria-label="Choose backup file" accept=".ssbackup,application/octet-stream,application/json"></section>
+
+      <section class="view pdf-view is-hidden" data-panel="pdf"><div class="page-heading"><div><p class="eyebrow">DOCUMENT WORKSPACE</p><h1>Fill a PDF</h1><p class="subtitle">Fill in a PDF, add your signature and save the finished file.</p></div><span class="feature-badge">Optional</span></div><div class="pdf-empty" id="pdf-empty"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#file-plus-2"/></svg><h2>Open a PDF to get started</h2><p>Choose a PDF. Then add your details, tick marks, dates or signature.</p><input id="pdf-picker" class="visually-hidden" type="file" aria-label="Choose PDF document" accept="application/pdf"><button class="button button-primary" id="open-pdf"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#folder-open"/></svg>Open PDF</button><p class="muted tiny">Your PDF stays on this device. It is not uploaded.</p></div><div class="pdf-workspace is-hidden" id="pdf-workspace"><div class="pdf-pages" id="pdf-pages" aria-label="PDF pages"></div><div class="pdf-stage"><div class="pdf-page-stack"><canvas id="pdf-canvas"></canvas><canvas id="pdf-overlay" aria-label="Place your signature on the PDF"></canvas></div></div><aside class="pdf-tools" id="pdf-tools"></aside></div></section>
+
+      <section class="view recovery-view is-hidden" data-panel="recovery" aria-labelledby="recovery-title"><div class="recovery-content"><div class="recovery-icon"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#shield-alert"/></svg></div><p class="eyebrow">LOCAL DATA CHECK</p><h1 id="recovery-title">We need to check your saved signatures</h1><p id="recovery-message" class="subtitle">We could not read some saved items. Your original photos are still on this device.</p><div id="recovery-actions"></div></div></section>
+    </main>
+    <section class="view information-view" aria-label="About SignStudio"><div class="page-heading"><div><p class="eyebrow">ABOUT THIS TOOL</p><h2>How it works</h2><p class="subtitle">Choose a signature image or draw a signature. Clean the image, open a PDF, add your signature or fill available fields, then download the finished file.</p><h2>Privacy</h2><p class="subtitle">SignStudio processes documents in your browser. It does not require an account or upload your documents to a SignStudio server. Download your work before closing the page.</p></div></div></section>
+    <footer class="app-footer"><span>SignStudio <span id="app-version">0.1.0</span></span><span><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#shield-check"/></svg> Your files stay on this device</span><button class="text-button" id="privacy-link">Privacy and saved files</button></footer>
+  </div>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <dialog class="app-dialog" id="app-dialog"><form method="dialog"><button type="button" class="dialog-close icon-button" aria-label="Close"><svg aria-hidden="true"><use href="%BASE_URL%icons/ui.svg#x"/></svg></button><div id="dialog-content"></div></form></dialog>
+  <script type="module" src="%BASE_URL%src/main.js"></script>
+</body>
+</html>

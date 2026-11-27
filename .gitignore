@@ -1,0 +1,28 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Test and diagnostic output
+playwright-report/
+test-results/
+artifacts/
+coverage/
+*.log
+*.zip
+*.trace
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Temporary workspaces and caches
+tmp/
+temp/
+.tmp/
+.cache/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
