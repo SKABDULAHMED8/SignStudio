@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'debug/*'
+      - 'debug-package-integration'
   pull_request:
     branches:
       - main
