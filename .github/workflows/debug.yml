@@ -31,10 +31,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Scan repository and history for secrets
-        uses: gitleaks/gitleaks-action@v3
-        env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_VERSION: latest
+        run: docker run --rm -v "$PWD:/path" zricethezav/gitleaks:latest detect --source=/path --redact --verbose
 
   diagnostics:
     name: Windows / Node 22 / Playwright Chromium
