@@ -58,5 +58,9 @@ test('GitHub Pages deployment builds before preview E2E and uploads only the ver
   const e2e = workflow.indexOf('npm run test:e2e');
   const artifact = workflow.indexOf('actions/upload-pages-artifact@v3');
   assert.ok(build >= 0 && e2e > build && artifact > e2e, 'build must precede preview tests, which must precede artifact upload');
-  assert.match(workflow, /branches:\s*\[main\]/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /release_approval:/);
+  assert.match(workflow, /Approve-Release/);
+  assert.doesNotMatch(workflow, /^\s*push:/m, 'deployment must not start automatically on a main-branch push');
+  assert.match(workflow, /permissions:\s*\n\s+contents: read\s*\n\s+pages: write\s*\n\s+id-token: write/);
 });
