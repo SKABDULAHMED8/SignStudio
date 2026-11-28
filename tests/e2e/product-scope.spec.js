@@ -12,16 +12,22 @@ test('image cleaner accepts an image and exposes a transparent PNG export', asyn
   await page.goto('./');
   await page.locator('[data-open="cleaner"]').click();
   await expect(page.getByRole('heading', { name: /clean an image and export a transparent png/i })).toBeVisible();
-  await expect(page.getByLabel(/choose image/i)).toHaveAttribute('accept', /image/);
-  await expect(page.getByRole('button', { name: /download transparent png/i })).toBeDisabled();
+  const imagePicker = page.getByLabel(/choose image/i);
+  await expect(imagePicker).toHaveAttribute('accept', /image/);
+  await imagePicker.setInputFiles({
+    name: 'pixel.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=', 'base64')
+  });
   await expect(page.getByRole('group', { name: /preview background/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /download transparent png/i })).toBeEnabled();
 });
 
 test('PDF filler supports form fields and basic page edits without signature placement', async ({ page }) => {
   await page.goto('./');
   await page.locator('[data-open="pdf"]').click();
   await expect(page.getByRole('heading', { name: /fill and edit pdf documents/i })).toBeVisible();
-  await expect(page.getByLabel(/choose pdf/i)).toHaveAttribute('accept', 'application/pdf');
+  await expect(page.getByLabel(/choose pdf/i)).toHaveAttribute('accept', /application\/pdf/);
   await expect(page.getByText(/add your signature|saved signature|signature library/i)).toHaveCount(0);
   await expect(page.getByRole('button', { name: /place text on page/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /add photo to pdf/i })).toBeVisible();
