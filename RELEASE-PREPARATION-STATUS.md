@@ -1,22 +1,29 @@
-# Release preparation status
+# SignStudio release preparation
 
-This archive contains the GitHub Pages base-path, metadata, branding asset, static service-worker caching and Pages workflow preparation changes. It is **not release-ready**.
+## Current state
 
-## Verified in this workspace
+The application is being prepared on `debug-package-integration`. The latest full diagnostics run before the SEO metadata update passed both Windows/Node 22/Playwright and Gitleaks. The metadata update is under verification; do not treat this release candidate as cleared until the new run passes.
 
-- Vite configuration uses `/SignStudio/` as its base path.
-- `public/site.webmanifest`, robots.txt and sitemap.xml were added/updated.
-- Favicon ICO contains 16, 32 and 48 pixel entries; PNG icons were generated at 180, 192 and 512 pixels; social preview is 1200×630.
-- Service worker generation now precaches only an explicit build asset list and ignores all other requests. It no longer runtime-caches arbitrary same-origin GET responses.
-- GitHub Pages workflow is prepared for push to `main` and manual dispatch. It runs unit tests, Playwright and build before deployment.
-- No push, deployment or publication was performed.
+## Implemented
 
-## Blocking items
+- Browser-only image cleanup and PDF editing workflows.
+- No persistent browser storage, account system, document library, service worker, analytics or file-upload endpoint in the runtime checks.
+- GitHub Pages Vite base path: `/SignStudio/`.
+- Local favicon, Apple touch icon, PNG app icons and social preview assets.
+- Canonical URL, Open Graph, Twitter card and SoftwareApplication structured data.
+- Visible workflow, privacy information and factual product FAQ.
+- `robots.txt`, sitemap, web app manifest and `llms.txt` discovery files.
+- Gitleaks and Windows/Node 22/Playwright diagnostics.
 
-- The current `src/main.js` still initializes IndexedDB, saved-signature library, personal profiles, passphrase lock and backup/recovery. These are incompatible with the approved no-persistence workflow and have not yet been removed.
-- The current Studio and PDF views still have library-dependent controls and integration. The transient Upload → Convert → Edit → Save → Close workflow is not complete.
-- Legacy tests and selectors have not all been reconciled with the revised UI.
-- `npm ci` could not complete in the build environment because the npm registry package download timed out; offline installation also failed because the required packages were not cached. Therefore unit tests, Playwright, production build and `/SignStudio/` preview were not run.
-- The workflow references official GitHub Pages actions but has not been tested by GitHub Actions.
+## Release gates
 
-Do not enable deployment or publish this archive. Complete the blockers, run all tests and inspect the Pages-path preview first.
+- Latest full unit, build and E2E workflow must pass after all current changes.
+- Confirm the GitHub Pages artifact contains correctly rooted `/SignStudio/` asset paths.
+- Validate the deployed favicon, manifest, sitemap, robots file and social preview after release.
+- Check the canonical URL and social preview with external validators after the site is live.
+- Search indexing, rich-result eligibility and AI crawler citations cannot be guaranteed by repository changes alone.
+- Do not merge to `main` or deploy until the project owner explicitly sends `Approve-Release`.
+
+## Local checks
+
+`npm ci`, `npm test`, `npm run build`, and `npm run test:e2e`.
