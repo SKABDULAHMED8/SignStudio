@@ -10,7 +10,7 @@ test('home presents the two approved SignStudio tools', async ({ page }) => {
 test('image background cleaner supports upload, preview and transparent PNG export', async ({ page }) => {
   await page.goto('./');
   await page.getByRole('button', { name: /image background cleaner/i }).click();
-  await expect(page.getByRole('heading', { name: /turn your image into a transparent png/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /clean an image and export a transparent png/i })).toBeVisible();
   await expect(page.getByLabel(/choose image/i)).toHaveAttribute('accept', /image/);
   await expect(page.getByRole('button', { name: /download transparent png/i })).toBeDisabled();
   await expect(page.getByRole('group', { name: /preview background/i })).toBeVisible();
