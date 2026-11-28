@@ -80,7 +80,14 @@ test('PDF filler supports form fields and basic page edits without signature pla
   await page.goto('./');
   await page.locator('[data-open="pdf"]').click();
   await expect(page.getByRole('heading', { name: /fill and edit pdf documents/i })).toBeVisible();
-  await expect(page.getByLabel(/choose pdf/i)).toHaveAttribute('accept', /application\/pdf/);
+  const pdfPicker = page.getByLabel(/choose pdf/i);
+  await expect(pdfPicker).toHaveAttribute('accept', /application\/pdf/);
+  await pdfPicker.setInputFiles({
+    name: 'signstudio-test.pdf',
+    mimeType: 'application/pdf',
+    buffer: await createPdfFixture()
+  });
+  await expect(page.locator('#pdf-layout')).toBeVisible();
   await expect(page.getByRole('button', { name: /signature/i })).toHaveCount(0);
   await expect(page.getByLabel(/signature/i)).toHaveCount(0);
   await expect(page.getByRole('button', { name: /place text on page/i })).toBeVisible();
