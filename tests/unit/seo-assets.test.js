@@ -42,6 +42,12 @@ test('required local branding assets exist', async () => {
   for (const path of ['public/logo.svg','public/favicon.svg','public/favicon.ico','public/apple-touch-icon.png','public/icon-192.png','public/icon-512.png','public/social-preview.png']) {
     assert.ok((await stat(new URL(path, ROOT))).size > 0, path + ' must exist');
   }
+  for (const [path, width, height] of [['public/apple-touch-icon.png',180,180],['public/icon-192.png',192,192],['public/icon-512.png',512,512],['public/social-preview.png',1200,630]]) {
+    const png = await readFile(new URL(path, ROOT));
+    assert.equal(png.toString('hex', 0, 8), '89504e470d0a1a0a', path + ' must be a PNG');
+    assert.equal(png.readUInt32BE(16), width, path + ' width');
+    assert.equal(png.readUInt32BE(20), height, path + ' height');
+  }
 });
 
 test('GitHub Pages deployment builds before preview E2E and uploads only the verified dist output', async () => {

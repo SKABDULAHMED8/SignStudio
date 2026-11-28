@@ -66,3 +66,8 @@ npm run test:e2e
 ## Release guard
 
 Do not merge this branch into `main` or deploy it until the project owner gives the exact approval: `Approve-Release`.
+
+
+## Search and sharing metadata
+
+The site includes a canonical URL, Open Graph and Twitter card metadata, SoftwareApplication structured data, local favicon/app icons, a web app manifest, `robots.txt`, `sitemap.xml` and `llms.txt`. These improve crawler and link-preview understanding but do not guarantee indexing, rankings or AI citations.
