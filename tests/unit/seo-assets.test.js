@@ -43,3 +43,12 @@ test('required local branding assets exist', async () => {
     assert.ok((await stat(new URL(path, ROOT))).size > 0, path + ' must exist');
   }
 });
+
+test('GitHub Pages deployment builds before preview E2E and uploads only the verified dist output', async () => {
+  const workflow = await text('.github/workflows/deploy.yml');
+  const build = workflow.indexOf('npm run build');
+  const e2e = workflow.indexOf('npm run test:e2e');
+  const artifact = workflow.indexOf('actions/upload-pages-artifact@v3');
+  assert.ok(build >= 0 && e2e > build && artifact > e2e, 'build must precede preview tests, which must precede artifact upload');
+  assert.match(workflow, /branches:\s*\[main\]/);
+});
