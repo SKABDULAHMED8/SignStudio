@@ -2,7 +2,7 @@
 
 SignStudio is a browser-based utility with two tools:
 
-1. **Image Background Cleaner**: process an image in browser memory and export a transparent PNG.
+1. **Image Background Cleaner**: isolate handwriting or ink from plain paper in browser memory and export a transparent PNG. It is not a general-purpose photo cutout tool.
 2. **PDF Filler**: fill supported interactive PDF fields and add text, dates, ticks, crosses or a photo to PDF pages.
 
 **Development branch:** `debug-package-integration`  

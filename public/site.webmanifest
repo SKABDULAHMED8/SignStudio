@@ -1,0 +1,22 @@
+{
+  "name": "SignStudio - Private Image and PDF Tools",
+  "short_name": "SignStudio",
+  "description": "Clean paper backgrounds from handwriting images and fill or edit PDFs in your browser.",
+  "start_url": "/SignStudio/",
+  "scope": "/SignStudio/",
+  "display": "standalone",
+  "background_color": "#f7f7f4",
+  "theme_color": "#172b4d",
+  "icons": [
+    {
+      "src": "/SignStudio/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/SignStudio/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
