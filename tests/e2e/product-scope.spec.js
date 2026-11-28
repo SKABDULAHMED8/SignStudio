@@ -76,7 +76,7 @@ async function createPdfFixture() {
   return Buffer.from(await document.save());
 }
 
-test('PDF filler supports form fields and basic page edits without signature placement', async ({ page }) => {
+test('PDF filler creates a handwritten signature, places it and exports the signed PDF', async ({ page }) => {
   await page.goto('./');
   await page.locator('[data-open="pdf"]').click();
   await expect(page.getByRole('heading', { name: /fill and edit pdf documents/i })).toBeVisible();
@@ -88,10 +88,28 @@ test('PDF filler supports form fields and basic page edits without signature pla
     buffer: await createPdfFixture()
   });
   await expect(page.locator('#pdf-layout')).toBeVisible();
-  await expect(page.getByRole('button', { name: /signature/i })).toHaveCount(0);
-  await expect(page.getByLabel(/signature/i)).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /create handwritten signature/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /place text on page/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /add photo to pdf/i })).toBeVisible();
+  await page.getByRole('button', { name: /create handwritten signature/i }).click();
+  const dialog = page.getByRole('dialog', { name: /create handwritten signature/i });
+  await expect(dialog).toBeVisible();
+  await page.getByRole('button', { name: /use signature/i }).click();
+  await expect(page.locator('#toast-region')).toContainText(/draw your signature/i);
+  const canvas = page.getByLabel(/draw your signature/i);
+  const bounds = await canvas.boundingBox();
+  expect(bounds).not.toBeNull();
+  await page.mouse.move(bounds.x + 30, bounds.y + 100);
+  await page.mouse.down();
+  await page.mouse.move(bounds.x + 90, bounds.y + 70, { steps: 5 });
+  await page.mouse.move(bounds.x + 150, bounds.y + 110, { steps: 5 });
+  await page.mouse.up();
+  await page.getByRole('button', { name: /use signature/i }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page.locator('#toast-region')).toContainText(/photo added/i);
+  await page.getByRole('button', { name: /prepare final pdf/i }).click();
+  await expect(page.locator('#pdf-final')).toBeVisible();
+  await expect(page.getByRole('button', { name: /download pdf/i })).toBeEnabled();
 });
 
 test('app does not access persistent storage or register a service worker', async ({ page }) => {

@@ -3,6 +3,7 @@ import { WorkerClient } from './platform/worker-client.js';
 import { decodeImageFile, savePng } from './platform/file-io.js';
 import { DEFAULT_PROCESSING_SETTINGS, MAX_INPUT_BYTES } from './signature/processing/constants.js';
 import { PdfFiller } from './pdf/simple-pdf-filler.js';
+import { createSignaturePad } from './signature/signature-pad.js';
 
 const $ = selector => document.querySelector(selector);
 const toast = message => {
@@ -18,6 +19,25 @@ let result = null;
 let worker = null;
 let pdf = null;
 let finalPdfUrl = null;
+const signatureDialog = $('#signature-dialog');
+const signaturePad = createSignaturePad($('#signature-canvas'));
+$('#pdf-create-signature').addEventListener('click', () => {
+  signaturePad.clear();
+  signatureDialog.showModal();
+});
+$('#signature-clear').addEventListener('click', () => signaturePad.clear());
+$('#signature-cancel').addEventListener('click', () => signatureDialog.close());
+$('#signature-use').addEventListener('click', async () => {
+  if (!pdf) return;
+  try {
+    const blob = await signaturePad.exportPng();
+    const file = new File([blob], 'handwritten-signature.png', { type: 'image/png' });
+    await pdf.addPhoto(file);
+    signatureDialog.close();
+  } catch (error) {
+    toast(error.message || 'Signature could not be added.');
+  }
+});
 
 function clearImagePreview() {
   const canvas = $('#result-canvas');
@@ -44,6 +64,8 @@ function releaseImage() {
 }
 
 function clearPdf() {
+  if (signatureDialog.open) signatureDialog.close();
+  signaturePad.clear();
   pdf?.clear();
   pdf = null;
   if (finalPdfUrl) URL.revokeObjectURL(finalPdfUrl);
