@@ -1,5 +1,6 @@
 import { deflateSync } from 'node:zlib';
 import { test, expect } from '@playwright/test';
+import { PDFDocument } from 'pdf-lib';
 
 function crc32(buffer) {
   let crc = 0xffffffff;
@@ -67,6 +68,13 @@ test('image cleaner accepts an image and exposes a transparent PNG export', asyn
   await expect(page.getByRole('group', { name: /preview background/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /download transparent png/i })).toBeEnabled();
 });
+
+async function createPdfFixture() {
+  const document = await PDFDocument.create();
+  const page = document.addPage([612, 792]);
+  page.drawText('SignStudio PDF test fixture', { x: 48, y: 740, size: 14 });
+  return Buffer.from(await document.save());
+}
 
 test('PDF filler supports form fields and basic page edits without signature placement', async ({ page }) => {
   await page.goto('./');
