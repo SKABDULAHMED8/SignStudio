@@ -1,9 +1,10 @@
 # SignStudio
 
-SignStudio is a browser-based utility with two tools:
+SignStudio is a browser-based utility with three capabilities:
 
 1. **Image Background Cleaner**: isolate handwriting or ink from plain paper in browser memory and export a transparent PNG. It is not a general-purpose photo cutout tool.
-2. **PDF Filler**: fill supported interactive PDF fields and add text, dates, ticks, crosses or a photo to PDF pages.
+2. **PDF Filler**: fill supported interactive PDF fields and add text, dates, ticks, crosses or photos to PDF pages.
+3. **Handwritten Signature**: draw a signature with a mouse, finger or stylus, then place and reposition it on a PDF page. SignStudio does not apply cryptographic digital certificates or verify signer identity.
 
 **Development branch:** `debug-package-integration`  
 **Production status:** Not approved for release. The live `main` branch remains unchanged until explicit `Approve-Release` approval.
@@ -54,6 +55,7 @@ npm run test:e2e
 
 - `src/main.js`: app navigation and active workspace lifecycle
 - `src/signature/processing/`: image cleanup pipeline
+- `src/signature/signature-pad.js`: temporary handwritten signature capture and transparent PNG export
 - `src/platform/worker-client.js`: temporary worker-based image processing
 - `src/platform/file-io.js`: image decode and PNG export
 - `src/pdf/simple-pdf-filler.js`: PDF rendering, form fields and basic page edits

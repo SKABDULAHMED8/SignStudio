@@ -21,6 +21,7 @@ test('GitHub Pages SEO metadata and chat previews use the canonical public URL',
   assert.match(html, /Privacy/);
   assert.match(html, /SignStudio questions/);
   assert.match(html, /not a general-purpose photo cutout tool/i);
+  assert.match(html, /Draw and place handwritten signatures on PDF pages/);
 });
 
 test('robots, sitemap, manifest and AI discovery file use the GitHub Pages URL', async () => {
@@ -36,6 +37,7 @@ test('robots, sitemap, manifest and AI discovery file use the GitHub Pages URL',
   assert.match(manifest, /icon-192\.png/);
   assert.match(llms, /SignStudio/);
   assert.match(llms, /does not upload/i);
+  assert.match(llms, /Handwritten Signature/);
 });
 
 test('required local branding assets exist', async () => {

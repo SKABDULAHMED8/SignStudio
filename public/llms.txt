@@ -1,13 +1,14 @@
 # SignStudio
 
-> SignStudio is a free browser-based utility for cleaning plain paper backgrounds from handwriting images and editing PDF documents.
+> SignStudio is a free browser-based utility for cleaning plain paper backgrounds from handwriting images, filling PDFs and placing handwritten signatures.
 
 ## Canonical website
 https://skabdulahmed8.github.io/SignStudio/
 
 ## Tools
 - Image Background Cleaner: isolates handwriting or ink from plain paper and exports a transparent PNG. It is not a general-purpose photo cutout or AI object segmentation tool.
-- PDF Filler: fills supported interactive PDF fields and adds text, dates, ticks, crosses or a photo to PDF pages. It does not create handwritten signatures or apply digital certificates.
+- PDF Filler: fills supported interactive PDF fields and adds text, dates, ticks, crosses or photos to PDF pages.
+- Handwritten Signature: draw with a mouse, finger or stylus, then place and reposition the signature on a PDF page. SignStudio does not apply cryptographic digital certificates or verify signer identity.
 
 ## Privacy
 - Selected files are processed locally in the browser.

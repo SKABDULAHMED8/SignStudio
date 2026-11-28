@@ -31,12 +31,13 @@ test('home page presents approved tools, the static app manifest and no persiste
   assert.match(html, /href="\/SignStudio\/site\.webmanifest"/);
   assert.doesNotMatch(html, /My signatures|vault|backup|password lock|saved profile|document archive|signing service/i);
   assert.doesNotMatch(html, /service-worker/i);
+  assert.match(html, /Create handwritten signature/);
 });
 
 test('runtime source has no persistent storage or remote upload APIs', async () => {
   const forbidden = /\b(localStorage|sessionStorage|indexedDB|navigator\.serviceWorker|caches\.open|fetch\s*\(|XMLHttpRequest|sendBeacon)\b/i;
   const files = [
-    'src/main.js', 'src/platform/file-io.js', 'src/platform/worker-client.js',
+    'src/main.js', 'src/platform/file-io.js', 'src/platform/worker-client.js', 'src/signature/signature-pad.js',
     'src/pdf/simple-pdf-filler.js', 'src/pdf/forms.js', 'src/pdf/pdf-export.js',
     'src/pdf/pdf-module.js'
   ];

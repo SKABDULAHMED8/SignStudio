@@ -2,12 +2,13 @@
 
 ## Product scope
 
-SignStudio provides two browser-only tools:
+SignStudio provides three browser-only capabilities:
 
 1. Image background cleanup and transparent PNG export.
 2. PDF form filling and basic page editing.
+3. Handwritten signature capture and placement on PDF pages.
 
-The app does not create, store, manage or place handwritten signatures. It does not provide accounts, profiles, vaults, password locks, backups, archives, signing services or document management.
+The app creates handwritten signature images in a temporary canvas and places them on PDF pages. It does not persist signatures, apply cryptographic digital certificates or verify signer identity. It does not provide accounts, profiles, vaults, password locks, backups, archives, remote signing services or document management.
 
 ## Runtime
 
@@ -16,6 +17,7 @@ The app does not create, store, manage or place handwritten signatures. It does 
 - PDF.js renders PDF pages.
 - pdf-lib fills supported AcroForm fields and writes edited PDFs.
 - Image processing runs in a temporary Web Worker.
+- Signature input uses a pointer-enabled canvas. Export produces a transparent PNG Blob in memory, then passes it to the existing PDF photo-placement and export pipeline.
 - Image decoding uses browser image APIs and canvas.
 - All selected user files remain in browser memory during the active task.
 
