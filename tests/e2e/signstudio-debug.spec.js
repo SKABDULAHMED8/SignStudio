@@ -8,14 +8,14 @@ test('production shell and local assets load from the GitHub Pages base path', a
   const response = await page.goto('./');
   expect(response?.ok()).toBeTruthy();
   await expect(page.getByRole('heading', { name: /work with your files/i })).toBeVisible();
-  await expect(page.getByRole('button', { name: /image background cleaner/i })).toBeVisible();
-  await expect(page.getByRole('button', { name: /pdf filler/i })).toBeVisible();
+  await expect(page.locator('[data-open="cleaner"]')).toBeVisible();
+  await expect(page.locator('[data-open="pdf"]')).toBeVisible();
   expect(failed).toEqual([]);
   expect(new URL(page.url()).pathname).toBe('/SignStudio/');
 });
 
 test('PDF input remains a local file picker', async ({ page }) => {
   await page.goto('./');
-  await page.getByRole('button', { name: /pdf filler/i }).click();
+  await page.locator('[data-open="pdf"]').click();
   expect(await page.getByLabel(/choose pdf/i).getAttribute('accept')).toBe('application/pdf,.pdf');
 });
