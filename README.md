@@ -1,22 +1,25 @@
 # SignStudio
 
-SignStudio is a browser-only document workspace with two separate tools:
+SignStudio is a browser-based utility with two tools:
 
-1. **Signature Photo Cleaner**: removes paper background and uneven lighting from a signature photo, lets you adjust cleanup, and exports a transparent PNG.
-2. **PDF Filler**: fills supported interactive PDF fields and adds text, dates, ticks and crosses to PDF pages. It does not create or place handwritten signatures.
+1. **Image Background Cleaner**: process an image in browser memory and export a transparent PNG.
+2. **PDF Filler**: fill supported interactive PDF fields and add text, dates, ticks, crosses or a photo to PDF pages.
 
-**Development URL:** https://skabdulahmed8.github.io/SignStudio/  
-**Development branch:** \`debug-package-integration\`  
-**Production status:** Not approved for release. The live \`main\` branch remains unchanged until explicit \`Approve-Release\` approval.
+**Development branch:** `debug-package-integration`  
+**Production status:** Not approved for release. The live `main` branch remains unchanged until explicit `Approve-Release` approval.
 
-## Privacy model
+## Privacy and data lifecycle
 
 - Selected files are processed locally in the browser.
-- SignStudio does not upload documents or generated results to a SignStudio server.
-- The app does not create accounts, profiles, a document library, saved signatures, backups, passwords, or document history.
-- The app does not use IndexedDB, localStorage, sessionStorage, or a service worker for user data.
-- Files and intermediate results exist temporarily in browser memory. Download results before clearing the workspace or closing the tab.
-- Clearing the workspace releases app-owned references, canvases, workers and Blob URLs where possible. Browser memory reclamation is controlled by the browser. This is not a guarantee of secure physical memory erasure. Browser downloads and browser-managed caches are outside the app's control.
+- SignStudio does not upload documents, images or generated results to a SignStudio server.
+- The application does not create accounts, profiles, a document library, saved files, saved images, passwords, backups, archives or document history.
+- The application does not use IndexedDB, localStorage, sessionStorage, cookies or a service worker.
+- The application does not register background sync or cache user files.
+- Active files and intermediate results exist in browser memory only while the workspace is open.
+- Use **Clear workspace** or close the tab when finished. Clearing releases app-owned references and resources where possible. Browser memory reclamation remains browser-controlled. This is not secure physical memory erasure.
+- Browser downloads, browser-managed HTTP cache and operating-system files remain under browser/OS control. The website cannot clear download history or guarantee deletion of downloaded files.
+
+This app does not promise offline reopening. It must download its static app files from the website.
 
 ## Requirements
 
@@ -28,50 +31,38 @@ No API keys, backend, account, database or environment variables are required.
 
 ## Local development
 
-In PowerShell:
-
-\`\`\`powershell
-Set-Location "D:\\SignStudio-GitHub-Integration"
+```powershell
+Set-Location "D:\SignStudio-GitHub-Integration"
 git switch debug-package-integration
 git pull --ff-only origin debug-package-integration
 npm ci
 npm run dev
-\`\`\`
+```
 
 Open http://127.0.0.1:5173/SignStudio/ and keep the terminal open.
 
-## Production build preview
-
-\`\`\`powershell
-npm run build
-npm run preview
-\`\`\`
-
-Open http://127.0.0.1:4173/SignStudio/. Preview serves the latest \`dist\` output. Rebuild after source changes.
-
 ## Verification
 
-\`\`\`powershell
+```powershell
 npm test
 npm run build
 npx playwright install chromium
 npm run test:e2e
-\`\`\`
-
-The CI workflow runs on Windows with Node.js 22. It checks secrets, installs locked dependencies, builds the app, runs unit tests and runs Playwright Chromium tests.
+```
 
 ## Project structure
 
-- \`src/main.js\`: application navigation and tool lifecycle
-- \`src/signature/processing/\`: signature image cleanup pipeline
-- \`src/platform/worker-client.js\`: worker-based image processing
-- \`src/pdf/simple-pdf-filler.js\`: PDF field and page-editing workspace
-- \`src/pdf/forms.js\`: AcroForm field discovery and value application
-- \`src/pdf/pdf-export.js\`: PDF output generation
-- \`styles/app.css\`: application styles
-- \`tests/unit/\`: unit tests
-- \`tests/e2e/\`: browser acceptance tests
+- `src/main.js`: app navigation and active workspace lifecycle
+- `src/signature/processing/`: image cleanup pipeline
+- `src/platform/worker-client.js`: temporary worker-based image processing
+- `src/platform/file-io.js`: image decode and PNG export
+- `src/pdf/simple-pdf-filler.js`: PDF rendering, form fields and basic page edits
+- `src/pdf/forms.js`: AcroForm field discovery and value application
+- `src/pdf/pdf-export.js`: PDF output generation
+- `styles/`: application styles
+- `tests/unit/`: image, PDF and privacy boundary tests
+- `tests/e2e/`: browser acceptance tests
 
 ## Release guard
 
-Do not merge this branch into \`main\` or deploy it until the user gives the exact approval: \`Approve-Release\`.
+Do not merge this branch into `main` or deploy it until the project owner gives the exact approval: `Approve-Release`.

@@ -3,7 +3,7 @@ test('production shell and assets load from the GitHub Pages base path',async({p
  const failed=[];page.on('requestfailed',r=>{if(new URL(r.url()).origin==='http://127.0.0.1:4173')failed.push(r.url());});
  const response=await page.goto('./');expect(response?.ok()).toBeTruthy();
  await expect(page.getByRole('heading',{name:/work with your files/i})).toBeVisible();
- await expect(page.getByRole('button',{name:/signature photo cleaner/i})).toBeVisible();
+ await expect(page.getByRole('button',{name:/image background cleaner/i})).toBeVisible();
  await expect(page.getByRole('button',{name:/pdf filler/i})).toBeVisible();
  expect(failed).toEqual([]);expect(new URL(page.url()).pathname).toBe('/SignStudio/');
 });
@@ -15,7 +15,7 @@ test('application does not use persistent browser storage or service workers',as
 test('legacy persistent library, profiles, passwords and backups are not exposed',async({page})=>{
  await page.goto('./');await expect(page.getByRole('heading',{name:/work with your files/i})).toBeVisible();
  await expect(page.getByText(/my signatures|saved details|backup password|app password/i)).toHaveCount(0);
- await expect(page.getByRole('button',{name:/signature photo cleaner/i})).toBeVisible();
+ await expect(page.getByRole('button',{name:/image background cleaner/i})).toBeVisible();
 });
 test('PDF tool has no handwritten signature placement workflow',async({page})=>{
  await page.goto('./');await page.getByRole('button',{name:/pdf filler/i}).click();
