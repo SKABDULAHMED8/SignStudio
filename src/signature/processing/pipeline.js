@@ -181,7 +181,10 @@ export function processSignature(imageData, settings = {}) {
   if (imageData.width * imageData.height > MAX_INPUT_PIXELS) throw new RangeError('Image is too large to process');
   const paper = estimatePaperColor(imageData);
   const normalised = normalizeLighting(imageData, paper, options.lightingStrength);
-  const mask = createInkMask(normalised, paper, options);
+  // Detect ink against the original pixel luminance. Lighting normalization is for
+  // the exported colour data; applying it before contrast detection can brighten
+  // dark ink to paper-white and erase the very signal the mask needs.
+  const mask = createInkMask(imageData, paper, options);
   const alpha = removeNoise(calculateAlpha(mask, imageData.width, imageData.height, options.sensitivity), imageData.width, imageData.height, options.noiseRemoval);
   const cropped = cropToContent(normalised, alpha, options.cropMargin);
   const recolored = recolorInk(cropped, ({ blue: '#2459d3', black: '#17191f', red: '#c93636', green: '#198452' })[options.ink], cropped.alpha);

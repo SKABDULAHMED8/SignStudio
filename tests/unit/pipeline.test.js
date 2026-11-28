@@ -1,6 +1,6 @@
 import test, { describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateAlpha, createInkMask, cropToContent, recolorInk, resizeOutput, rgbToHsv, removeNoise } from '../../src/signature/processing/pipeline.js';
+import { calculateAlpha, createInkMask, cropToContent, processSignature, recolorInk, resizeOutput, rgbToHsv, removeNoise } from '../../src/signature/processing/pipeline.js';
 
 const makeImage = (pixels, width = pixels.length, height = 1) => ({ width, height, data: new Uint8ClampedArray(pixels.flatMap(([r, g, b, a = 255]) => [r, g, b, a])) });
 
@@ -52,6 +52,24 @@ describe('signature processing pipeline', () => {
     assert.deepEqual(resizeOutput({ width: 400, height: 200 }, 1024), { width: 400, height: 200, scale: 1 });
     assert.equal(Math.max(resizeOutput({ width: 6000, height: 3000 }, 'original').width, resizeOutput({ width: 6000, height: 3000 }, 'original').height), 4096);
   });
+
+  test('detects blue ink after lighting normalization without losing its contrast signal', () => {
+    const width = 64;
+    const height = 64;
+    const data = new Uint8ClampedArray(width * height * 4);
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      const ink = y >= 29 && y <= 33 && x >= 12 && x <= 51;
+      const offset = (y * width + x) * 4;
+      data[offset] = ink ? 20 : 255;
+      data[offset + 1] = ink ? 55 : 255;
+      data[offset + 2] = ink ? 120 : 255;
+      data[offset + 3] = 255;
+    }
+    const result = processSignature({ width, height, data }, { ink: 'blue' });
+    assert.ok(result.image.data.some((value, index) => index % 4 === 3 && value > 0));
+    assert.ok(result.image.data.some((value, index) => index % 4 === 3 && value === 0));
+  });
+
 });
 
 test('sensitivity slider has deterministic monotonic edge retention', () => {

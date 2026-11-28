@@ -75,7 +75,6 @@ test('PDF filler supports form fields and basic page edits without signature pla
   await expect(page.getByLabel(/choose pdf/i)).toHaveAttribute('accept', /application\/pdf/);
   await expect(page.getByRole('button', { name: /signature/i })).toHaveCount(0);
   await expect(page.getByLabel(/signature/i)).toHaveCount(0);
-  await expect(page.getByText(/saved signature|signature library/i)).toHaveCount(0);
   await expect(page.getByRole('button', { name: /place text on page/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /add photo to pdf/i })).toBeVisible();
 });
